@@ -17,6 +17,12 @@
         "independent_cache": true,
         "rules": [
             {
+                "domain": [
+                    "speed.beytooteketab.online"
+                ],
+                "server": "dns-direct"
+            },
+            {
                 "domain_suffix": ".ir",
                 "server": "dns-direct"
             },
@@ -31,7 +37,8 @@
                 "disable_cache": true,
                 "inbound": [
                     "tun-in",
-                    "mixed-proxy"
+                    "mixed-proxy",
+                    "dns-in"
                 ],
                 "server": "dns-fake"
             }
@@ -79,6 +86,14 @@
         }
     },
     "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "listen_port": 6450,
+            "override_address": "8.8.8.8",
+            "override_port": 53,
+            "tag": "dns-in",
+            "type": "direct"
+        },
         {
             "auto_route": true,
             "exclude_package": [
@@ -133,6 +148,10 @@
         {
             "tag": "block",
             "type": "block"
+        },
+        {
+            "tag": "dns-out",
+            "type": "dns"
         }
     ],
     "route": {
@@ -211,6 +230,18 @@
             }
         ],
         "rules": [
+            {
+                "outbound": "dns-out",
+                "port": [
+                  53
+                ]
+              },
+              {
+                "inbound": [
+                  "dns-in"
+                ],
+                "outbound": "dns-out"
+            },
             {
                 "ip_cidr": [
                     "224.0.0.0/3",
