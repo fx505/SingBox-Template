@@ -17,12 +17,6 @@
         "independent_cache": true,
         "rules": [
             {
-                "domain": [
-                    "speed.beytooteketab.online"
-                ],
-                "server": "dns-direct"
-            },
-            {
                 "domain_suffix": ".ir",
                 "server": "dns-direct"
             },
