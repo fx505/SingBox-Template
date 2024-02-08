@@ -1,10 +1,10 @@
 {
     "log": {
-        "level": "info",
+        "level": "debug",
         "timestamp": true
     },
     "ntp": {
-        "detour": "bypass",
+        "detour": "direct",
         "enabled": false,
         "server": "pool.ntp.org"
     },
@@ -17,12 +17,17 @@
         "independent_cache": true,
         "rules": [
             {
+                "domain": [
+                    "cdn.statically.io"
+                ],
+                "server": "dns-direct"
+            },
+            {
                 "domain_suffix": ".ir",
                 "server": "dns-direct"
             },
             {
                 "rule_set": [
-                    "geosite-private",
                     "geosite-ir"
                 ],
                 "server": "dns-direct"
@@ -31,7 +36,6 @@
                 "disable_cache": true,
                 "inbound": [
                     "tun-in",
-                    "mixed-proxy",
                     "dns-in"
                 ],
                 "server": "dns-fake"
@@ -41,19 +45,17 @@
             {
                 "address": "https://8.8.8.8/dns-query",
                 "address_resolver": "dns-direct",
-                "strategy": "prefer_ipv4",
                 "tag": "dns-remote"
             },
             {
-                "address": "local",
+                "address": "1.1.1.1",
                 "address_resolver": "dns-local",
-                "detour": "bypass",
-                "strategy": "prefer_ipv4",
+                "detour": "direct",
                 "tag": "dns-direct"
             },
             {
                 "address": "local",
-                "detour": "bypass",
+                "detour": "direct",
                 "tag": "dns-local"
             },
             {
@@ -62,7 +64,6 @@
             },
             {
                 "address": "fakeip",
-                "strategy": "ipv4_only",
                 "tag": "dns-fake"
             }
         ]
@@ -74,8 +75,8 @@
         },
         "clash_api": {
             "external_controller": "127.0.0.1:9090",
-            "external_ui": "yasin_dev81",
-            "external_ui_download_detour": "bypass",
+            "external_ui": "fx505",
+            "external_ui_download_detour": "proxy",
             "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip"
         }
     },
@@ -89,6 +90,7 @@
             "type": "direct"
         },
         {
+            "tag": "tun-in",
             "auto_route": true,
             "exclude_package": [
                 "com.android.captiveportallogin",
@@ -102,21 +104,13 @@
                 "http_proxy": {
                     "enabled": true,
                     "server": "127.0.0.1",
-                    "server_port": 2080
+                    "server_port": 7890
                 }
             },
             "sniff": true,
             "stack": "gvisor",
             "strict_route": true,
-            "type": "tun",
-            "tag": "tun-in"
-        },
-        {
-            "listen": "127.0.0.1",
-            "listen_port": 2080,
-            "sniff": true,
-            "type": "mixed",
-            "tag": "mixed-proxy"
+            "type": "tun"
         }
     ],
     "outbounds": [
@@ -124,7 +118,16 @@
             "tag": "proxy",
             "type": "selector",
             "interrupt_exist_connections": true,
-            "outbounds": null
+            "default": "🚀 Fastest",
+            "outbounds": [
+                "🚀 Fastest",
+                "🇺🇸 H2-Dell (VM530) ✅",
+                "🇦🇪 xzqr (VM530) ✅",
+                "📊 29.32 GB |⏳ 27 روز ✅",
+                "🇫🇷 CFworker (VM530) ✅",
+                "⚡️ [2x] Emergency",
+                "Free"
+            ]
         },
         {
             "tag": "🚀 Fastest",
@@ -132,11 +135,18 @@
             "idle_timeout": "1h",
             "interval": "20m",
             "interrupt_exist_connections": true,
-            "url": "http://cp.cloudflare.com/",
-            "outbounds": null
+            "url": "https://www.google.com/generate_204",
+            "outbounds": [
+                "🇺🇸 H2-Dell (VM530) ✅",
+                "🇦🇪 xzqr (VM530) ✅",
+                "📊 29.32 GB |⏳ 27 روز ✅",
+                "🇫🇷 CFworker (VM530) ✅",
+                "⚡️ [2x] Emergency",
+                "Free"
+            ]
         },
         {
-            "tag": "bypass",
+            "tag": "direct",
             "type": "direct"
         },
         {
@@ -146,6 +156,138 @@
         {
             "tag": "dns-out",
             "type": "dns"
+        },
+        {
+            "down_mbps": 0,
+            "password": "4vAy2oj2RhV6TlM8YUCCIWkj1KDfgH",
+            "server": "146.19.100.138",
+            "server_port": 443,
+            "tls": {
+                "alpn": [
+                    "h3"
+                ],
+                "enabled": true,
+                "insecure": true,
+                "server_name": "google.com"
+            },
+            "up_mbps": 0,
+            "type": "hysteria2",
+            "domain_strategy": "",
+            "tag": "Free"
+        },
+        {
+            "type": "vless",
+            "tag": "🇺🇸 H2-Dell (VM530) ✅",
+            "server": "[::ffff:18c7:4fab]",
+            "server_port": 443,
+            "transport": {
+                "type": "http",
+                "host": [
+                    "www.dell.com"
+                ],
+                "path": "/de-de",
+                "idle_timeout": "15s",
+                "ping_timeout": "15s"
+            },
+            "tls": {
+                "enabled": true,
+                "server_name": "i.dell.com",
+                "reality": {
+                    "enabled": true,
+                    "public_key": "2GPFkkGx5kM73AEezrtcIqbZ5iJgHjvLFFJ91PggI2Y",
+                    "short_id": "ab6ae7786a3c9c7c"
+                },
+                "utls": {
+                    "enabled": true,
+                    "fingerprint": "chrome"
+                },
+                "alpn": [
+                    "h2"
+                ]
+            },
+            "multiplex": {
+                "protocol": "smux",
+                "max_streams": 32
+            },
+            "uuid": "a68e6f6b-e63a-4629-9562-0a4af6878941"
+        },
+        {
+            "type": "vless",
+            "tag": "🇦🇪 xzqr (VM530) ✅",
+            "server": "cloud.beytooteketab.online",
+            "server_port": 443,
+            "transport": {
+                "type": "ws",
+                "path": "/websocket",
+                "headers": {
+                    "Host": "www.hetboothuis.site"
+                }
+            },
+            "tls": {
+                "enabled": true,
+                "server_name": "www.hetboothuis.site",
+                "utls": {
+                    "enabled": true,
+                    "fingerprint": "chrome"
+                },
+                "alpn": [
+                    "http/1.1"
+                ]
+            },
+            "multiplex": {
+                "protocol": "smux",
+                "max_streams": 32
+            },
+            "uuid": "a68e6f6b-e63a-4629-9562-0a4af6878941"
+        },
+        {
+            "type": "vless",
+            "tag": "📊 29.32 GB |⏳ 27 روز ✅",
+            "server": "0.0.0.0",
+            "server_port": 2012,
+            "transport": {
+                "type": "ws",
+                "path": "/WqLdGZ9k",
+                "max_early_data": 2048,
+                "early_data_header_name": "Sec-WebSocket-Protocol"
+            },
+            "multiplex": {
+                "protocol": "smux",
+                "max_streams": 32
+            },
+            "uuid": "a68e6f6b-e63a-4629-9562-0a4af6878941"
+        },
+        {
+            "type": "vless",
+            "tag": "🇫🇷 CFworker (VM530) ✅",
+            "server": "cloud.beytooteketab.online",
+            "server_port": 80,
+            "transport": {
+                "type": "ws",
+                "path": "/WqLdGZ9k",
+                "headers": {
+                    "Host": "worker-shy-thunder-1821-jafooaklf-adf-kossher-bashe-cheghad-gha.adfnho-adhfoiaj-aohoha-be-yad-yousef-khan-dadasham-basheh-jaans.workers.dev"
+                },
+                "max_early_data": 2048,
+                "early_data_header_name": "Sec-WebSocket-Protocol"
+            },
+            "multiplex": {
+                "protocol": "smux",
+                "max_streams": 32
+            },
+            "uuid": "a68e6f6b-e63a-4629-9562-0a4af6878941"
+        },
+        {
+            "type": "shadowsocks",
+            "tag": "⚡️ [2x] Emergency",
+            "server": "[::ffff:b961:76e5]",
+            "server_port": 8080,
+            "multiplex": {
+                "protocol": "smux",
+                "max_streams": 32
+            },
+            "password": "GJ700-4FdDczg8Uc9GwwOw",
+            "method": "chacha20-ietf-poly1305"
         }
     ],
     "route": {
@@ -153,70 +295,21 @@
         "override_android_vpn": true,
         "rule_set": [
             {
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "format": "binary",
                 "tag": "geosite-ir",
                 "type": "remote",
                 "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-ir.srs"
             },
             {
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "format": "binary",
                 "tag": "geoip-ir",
                 "type": "remote",
                 "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-ir.srs"
             },
             {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geosite-category-ads-all",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-category-ads-all.srs"
-            },
-            {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geosite-cryptominers",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-cryptominers.srs"
-            },
-            {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geosite-malware",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-malware.srs"
-            },
-            {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geosite-phishing",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-phishing.srs"
-            },
-            {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geosite-private",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-private.srs"
-            },
-            {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geoip-malware",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-malware.srs"
-            },
-            {
-                "download_detour": "bypass",
-                "format": "binary",
-                "tag": "geoip-phishing",
-                "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-phishing.srs"
-            },
-            {
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "format": "binary",
                 "tag": "geoip-private",
                 "type": "remote",
@@ -227,12 +320,12 @@
             {
                 "outbound": "dns-out",
                 "port": [
-                  53
+                    53
                 ]
-              },
-              {
+            },
+            {
                 "inbound": [
-                  "dns-in"
+                    "dns-in"
                 ],
                 "outbound": "dns-out"
             },
@@ -248,32 +341,15 @@
                 ]
             },
             {
-                "outbound": "bypass",
-                "rule_set": [
-                    "geosite-private",
-                    "geoip-private"
-                ]
+                "outbound": "direct",
+                "domain_suffix": ".ir"
             },
             {
-                "outbound": "block",
-                "rule_set": [
-                    "geosite-category-ads-all",
-                    "geosite-cryptominers",
-                    "geosite-malware",
-                    "geosite-phishing",
-                    "geoip-malware",
-                    "geoip-phishing"
-                ]
-            },
-            {
-                "domain_suffix": ".ir",
-                "outbound": "bypass"
-            },
-            {
-                "outbound": "bypass",
+                "outbound": "direct",
                 "rule_set": [
                     "geosite-ir",
-                    "geoip-ir"
+                    "geoip-ir",
+                    "geoip-private"
                 ]
             }
         ]
