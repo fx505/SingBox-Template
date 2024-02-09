@@ -1,13 +1,4 @@
 {
-    "log": {
-        "level": "debug",
-        "timestamp": true
-    },
-    "ntp": {
-        "detour": "direct",
-        "enabled": false,
-        "server": "pool.ntp.org"
-    },
     "dns": {
         "fakeip": {
             "enabled": true,
@@ -16,12 +7,6 @@
         },
         "independent_cache": true,
         "rules": [
-            {
-                "domain": [
-                    "cdn.statically.io"
-                ],
-                "server": "dns-direct"
-            },
             {
                 "domain_suffix": ".ir",
                 "server": "dns-direct"
@@ -35,8 +20,7 @@
             {
                 "disable_cache": true,
                 "inbound": [
-                    "tun-in",
-                    "dns-in"
+                    "tun-in"
                 ],
                 "server": "dns-fake"
             }
@@ -64,21 +48,10 @@
             },
             {
                 "address": "fakeip",
+                "address_resolver": "dns-remote",
                 "tag": "dns-fake"
             }
         ]
-    },
-    "experimental": {
-        "cache_file": {
-            "enabled": true,
-            "store_fakeip": true
-        },
-        "clash_api": {
-            "external_controller": "127.0.0.1:9090",
-            "external_ui": "fx505",
-            "external_ui_download_detour": "proxy",
-            "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip"
-        }
     },
     "inbounds": [
         {
@@ -90,7 +63,6 @@
             "type": "direct"
         },
         {
-            "tag": "tun-in",
             "auto_route": true,
             "exclude_package": [
                 "com.android.captiveportallogin",
@@ -104,15 +76,28 @@
                 "http_proxy": {
                     "enabled": true,
                     "server": "127.0.0.1",
-                    "server_port": 7890
+                    "server_port": 2080
                 }
             },
             "sniff": true,
             "stack": "gvisor",
             "strict_route": true,
-            "type": "tun"
+            "type": "tun",
+            "tag": "tun-in"
+        },
+        {
+            "domain_strategy": "prefer_ipv4",
+            "listen": "127.0.0.1",
+            "listen_port": 2080,
+            "sniff": true,
+            "sniff_override_destination": true,
+            "tag": "mixed-in",
+            "type": "mixed"
         }
     ],
+    "log": {
+        "level": "info"
+    },
     "outbounds": [
         {
             "tag": "proxy",
@@ -124,14 +109,18 @@
         {
             "tag": "🚀 Fastest",
             "type": "urltest",
-            "idle_timeout": "1h",
-            "interval": "20m",
-            "interrupt_exist_connections": true,
+            "idle_timeout": "30m",
+            "interval": "15m",
             "url": "https://www.google.com/generate_204",
+            "interrupt_exist_connections": true,
             "outbounds": null
         },
         {
             "tag": "direct",
+            "type": "direct"
+        },
+        {
+            "tag": "bypass",
             "type": "direct"
         },
         {
@@ -145,24 +134,23 @@
     ],
     "route": {
         "auto_detect_interface": true,
-        "override_android_vpn": true,
         "rule_set": [
             {
-                "download_detour": "direct",
+                "download_detour": "bypass",
                 "format": "binary",
                 "tag": "geosite-ir",
                 "type": "remote",
                 "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-ir.srs"
             },
             {
-                "download_detour": "direct",
+                "download_detour": "bypass",
                 "format": "binary",
                 "tag": "geoip-ir",
                 "type": "remote",
                 "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-ir.srs"
             },
             {
-                "download_detour": "direct",
+                "download_detour": "bypass",
                 "format": "binary",
                 "tag": "geoip-private",
                 "type": "remote",
@@ -194,11 +182,11 @@
                 ]
             },
             {
-                "outbound": "direct",
-                "domain_suffix": ".ir"
+                "domain_suffix": ".ir",
+                "outbound": "bypass"
             },
             {
-                "outbound": "direct",
+                "outbound": "bypass",
                 "rule_set": [
                     "geosite-ir",
                     "geoip-ir",
