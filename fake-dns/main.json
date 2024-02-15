@@ -1,4 +1,19 @@
 {
+    "log": {
+        "level": "warn"
+    },
+    "experimental": {
+        "cache_file": {
+            "enabled": true,
+            "store_fakeip": true
+        },
+        "clash_api": {
+            "external_controller": "127.0.0.1:9090",
+            "external_ui": "fx505",
+            "external_ui_download_detour": "bypass",
+            "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip"
+        }
+    },
     "dns": {
         "fakeip": {
             "enabled": true,
@@ -6,6 +21,7 @@
             "inet6_range": "fc00::/18"
         },
         "independent_cache": true,
+        "strategy": "prefer_ipv4",
         "rules": [
             {
                 "domain_suffix": ".ir",
@@ -21,6 +37,10 @@
                 "disable_cache": true,
                 "inbound": [
                     "tun-in"
+                ],
+                "query_type": [
+                    "A",
+                    "AAAA"
                 ],
                 "server": "dns-fake"
             }
@@ -95,9 +115,6 @@
             "type": "mixed"
         }
     ],
-    "log": {
-        "level": "info"
-    },
     "outbounds": [
         {
             "tag": "proxy",
@@ -109,11 +126,11 @@
         {
             "tag": "🚀 Fastest",
             "type": "urltest",
-            "idle_timeout": "30m",
-            "interval": "15m",
+            "outbounds": null,
+            "idle_timeout": "40m",
+            "interval": "20m",
             "url": "https://www.google.com/generate_204",
-            "interrupt_exist_connections": true,
-            "outbounds": null
+            "interrupt_exist_connections": true
         },
         {
             "tag": "direct",
@@ -136,25 +153,28 @@
         "auto_detect_interface": true,
         "rule_set": [
             {
-                "download_detour": "bypass",
+                "download_detour": "proxy",
                 "format": "binary",
                 "tag": "geosite-ir",
                 "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-ir.srs"
+                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geosite-ir.srs",
+                "update_interval": "3d"
             },
             {
-                "download_detour": "bypass",
+                "download_detour": "proxy",
                 "format": "binary",
                 "tag": "geoip-ir",
                 "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-ir.srs"
+                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-ir.srs",
+                "update_interval": "3d"
             },
             {
-                "download_detour": "bypass",
+                "download_detour": "proxy",
                 "format": "binary",
                 "tag": "geoip-private",
                 "type": "remote",
-                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-private.srs"
+                "url": "https://cdn.statically.io/gh/chocolate4u/Iran-sing-box-rules@rule-set/geoip-private.srs",
+                "update_interval": "3d"
             }
         ],
         "rules": [
